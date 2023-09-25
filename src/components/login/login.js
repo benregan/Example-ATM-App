@@ -25,23 +25,25 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function Login() {
+    // This function handles user login and authentication.
     const { setUser, setAccountBalance, setDailyWithdrawal } = useContext(UserContext);
-    const [pin, setPin] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isLastNameValid, setIsLastNameValid] = useState(true);
-    const [isPinValid, setIsPinValid] = useState(true);
-    const [showCard, setShowCard] = useState(false);
+    const [pin, setPin] = useState(''); // User PIN number
+    const [lastName, setLastName] = useState(''); // User last name
+    const [errorMessage, setErrorMessage] = useState(''); // Generic error message state
+    const [isLastNameValid, setIsLastNameValid] = useState(true); // Has a last name been entered for input
+    const [isPinValid, setIsPinValid] = useState(true); // Has a pin number been entered for input
+    const [showCard, setShowCard] = useState(false); // Show/hide the Credit Card component
 
-    const [showPin, setShowPin] = useState(false);
-    const handleClickShowPin = () => setShowPin(!showPin);
+    const [showPin, setShowPin] = useState(false); // switches the text field type to allow viewing of input
+    const handleClickShowPin = () => setShowPin(!showPin); // showPin Toggle
 
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false); // function to set display of the snackBar component
+    const [snackbarMessage, setSnackbarMessage] = useState(''); // function to set the message for the snackBar component
 
     const navigate = useNavigate();
 
-    const handleCloseSnackbar = (event, reason) => {
+    // SnackBar Close function, toggles display to false
+    const handleCloseSnackbar = (event, reason) => { 
         if (reason === 'clickaway') {
             return;
         }
@@ -50,41 +52,45 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+      
+        // Validate user has input a last name
         if (!lastName) {
-            setIsLastNameValid(false);
+          setIsLastNameValid(false);
         } else {
-            setIsLastNameValid(true);
+          setIsLastNameValid(true);
         }
-
+      
+        // Validate user has input a pin
         if (!pin) {
-            setIsPinValid(false);
+          setIsPinValid(false);
         } else {
-            setIsPinValid(true);
+          setIsPinValid(true);
         }
-
+      
+        // Check if the user lastName/pin combination match a user in the mock user file
         const matchedUser = mockUsers.find(user => user.lastName.toLowerCase() === lastName.toLowerCase() && user.pin === pin);
-
+      
         if (matchedUser) {
-            setSnackbarMessage("Pin Valid. Insert card.");
-            setOpenSnackbar(true);
-            setShowCard(true);
-            setUser(matchedUser);
-
-            // Find the user's account data and set it in the context
-            const userAccountData = userAccounts.find(account => account.lastName === matchedUser.lastName);
-            if (userAccountData) {
-                setAccountBalance(userAccountData.accountBalance);
-                setDailyWithdrawal(userAccountData.dailyWithdrawalLimit);
-            }
-            setErrorMessage('');
-           
+          // Set the user object in the UserContext
+          setUser(matchedUser);
+      
+          // Set the account data from the account data mock matching the user credentials in the UserContext for display on the dashboard.
+          const userAccountData = userAccounts.find(account => account.lastName === matchedUser.lastName);
+          if (userAccountData) {
+            setAccountBalance(userAccountData.accountBalance);
+            setDailyWithdrawal(userAccountData.dailyWithdrawalLimit);
+          }
+          setErrorMessage('');
+      
+          // We have a valid user, show the Credit card and Insert Card button
+          setShowCard(true);
         } else {
-            // Handle login error
-            setErrorMessage('Invalid Last Name or PIN');
-            console.error("Invalid Last Name or PIN");
+
+          // Invalid credentials, set error.
+          setErrorMessage('Invalid Last Name or PIN');
+          console.error("Invalid Last Name or PIN");
         }
-    };
+      };
 
     return (
         <Container style={containerStyles}>
@@ -126,6 +132,7 @@ function Login() {
                             if (showCard) {
                                 setShowCard(false);
                             }
+                            // limit text entry to be numbers only and 4 characters long
                             const result = e.target.value.replace(/\D/g, "");
                             if (e.target.value.toString().length <= 4) {
                                 setPin(result)

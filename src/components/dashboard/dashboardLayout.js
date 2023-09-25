@@ -2,9 +2,10 @@ import React, {useContext} from 'react';
 import { Box, Button, AppBar, Toolbar } from '@mui/material';
 import { UserContext } from '../../contexts/userContext'; 
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/images/HE-Bank-logo-color.png'; // Update the path
+import logo from '../../assets/images/HE-Bank-logo-color.png';
 
 function DashboardLayout({ children }) {
+    // Grab UserContext functions to handle resetting things on logout.
 const { setUser, setAccountBalance, setDailyWithdrawal } = useContext(UserContext);
 const navigate = useNavigate();
   return (
@@ -18,6 +19,7 @@ const navigate = useNavigate();
             color="primary" 
             variant="contained" 
             onClick={(e) => {
+              // Reset user details on logout
                 e.preventDefault();
                 setUser(null);
                 setAccountBalance(0);

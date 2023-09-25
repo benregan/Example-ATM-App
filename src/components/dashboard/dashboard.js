@@ -9,13 +9,18 @@ import { UserContext } from '../../contexts/userContext';
 import mockTransactions, { formatDate } from '../../mocks/transactionsMock';
 
 function Dashboard() {
-    const { accountBalance, dailyWithdrawal } = useContext(UserContext);
-    const [showDeposit, setShowDeposit] = useState(false);
+    const { accountBalance, dailyWithdrawal } = useContext(UserContext); // Balance info
+    
+    // Show/Hide Deposit or withdrawal forms
+    const [showDeposit, setShowDeposit] = useState(false); 
     const [showWithdraw, setShowWithdraw] = useState(false);
-    const transactionsRef = useRef(null);
-    const [showMoreIndicator, setShowMoreIndicator] = useState(true);
-    const [transactions, setTransactions] = useState(mockTransactions);
+    
+    const transactionsRef = useRef(null); // Used in the transaction list to determine if we need to show the scroll icon
 
+    const [showMoreIndicator, setShowMoreIndicator] = useState(true); // Should the show more indicator display? If there are 5ish or more itelms in the list, should be 'true'
+    const [transactions, setTransactions] = useState(mockTransactions); // State for transactions list
+
+    // handles scroll event relative to the transaction list card element
     const handleScroll = () => {
         if (transactionsRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = transactionsRef.current;
@@ -28,7 +33,7 @@ function Dashboard() {
     };
 
 
-    useEffect(() => {
+    useEffect(() => { // add/remove the scroll listener on the transaction list element
         if (transactionsRef.current) {
           transactionsRef.current.addEventListener('scroll', handleScroll);
           return () => {
@@ -39,6 +44,7 @@ function Dashboard() {
         }
       }, []);
 
+    // Auto scroll 50px when clicked
     const handleMoreClick = () => {
         if (transactionsRef.current) {
             const lineHeight = 50;
@@ -46,7 +52,9 @@ function Dashboard() {
         }
     };
 
+    // Handle when new transactions are made and add them to the existing list
     const handleTransactions = (amount = 0, action = '') => {
+        
         let transactionType;
     
         switch (action) {
@@ -57,12 +65,12 @@ function Dashboard() {
                 transactionType = 'Withdrawal';
                 break;
             default:
-                console.error('Invalid action provided to handleTransactions');
+                console.error('Invalid action');
                 return;
         }
     
 
-        if (transactionType) {
+        if (transactionType) { 
             setTransactions(prevTransactions => [
                 {
                     id: Date.now(),
@@ -201,7 +209,6 @@ function Dashboard() {
                     {showDeposit &&
                         <Card>
                             <CardContent>
-
                                 <Deposit updateTransactions={handleTransactions}/>
                             </CardContent>
                         </Card>

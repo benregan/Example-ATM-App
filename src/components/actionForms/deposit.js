@@ -14,8 +14,8 @@ function Deposit({ updateTransactions }) {
       
       setAccountBalance(prevBalance => prevBalance + depositAmount);
       
-      updateTransactions(depositAmount, "deposit");  // Call the passed down function
-      setAmount(''); // Reset the input field
+      updateTransactions(depositAmount, "deposit");
+      setAmount('');
     }
   };
 
