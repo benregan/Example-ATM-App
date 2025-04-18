@@ -10,7 +10,7 @@ build_job:
   script:
     - npm ci
     - npx update-browserslist-db@latest
-    - CI=false npm run build:gitlab
+    - CI=false PUBLIC_URL=/ npm run build:gitlab
   artifacts:
     paths:
       - build/
