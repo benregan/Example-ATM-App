@@ -5,17 +5,19 @@ cache:
 stages:
   - build
   - deploy
+
 build_job:
   stage: build
   script:
     - npm ci
     - npx update-browserslist-db@latest
-    - CI=false PUBLIC_URL=/ npm run build:gitlab
+    - npm run build:gitlab
   artifacts:
     paths:
       - build/
   only:
     - main
+
 pages:
   stage: deploy
   script:

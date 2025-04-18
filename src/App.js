@@ -9,7 +9,7 @@ import AuthedRoute from './components/authComponent/authComponent';
 function App() {
   return (
     <UserProvider>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={
