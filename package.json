@@ -20,8 +20,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:gitlab": "PUBLIC_URL=/$CI_PROJECT_NAME react-scripts build",
-    "build:github": "PUBLIC_URL=/$GITHUB_REPOSITORY_NAME react-scripts build",
+    "build:gitlab": "react-scripts build",
+    "build:github": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build:github",
