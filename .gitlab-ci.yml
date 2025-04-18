@@ -1,4 +1,4 @@
-image: node:20
+image: node:JTS
 cache:
   paths:
     - node_modules/
@@ -10,7 +10,7 @@ build_job:
   script:
     - npm ci
     - npx update-browserslist-db@latest
-    - npm run build
+    - CI=false npm run build:gitlab
   artifacts:
     paths:
       - build/
