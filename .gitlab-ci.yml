@@ -1,0 +1,28 @@
+image: node:20
+cache:
+  paths:
+    - node_modules/
+stages:
+  - build
+  - deploy
+build_job:
+  stage: build
+  script:
+    - npm ci
+    - npx update-browserslist-db@latest
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+  only:
+    - main
+pages:
+  stage: deploy
+  script:
+    - mv build public
+    - cp public/index.html public/404.html
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
