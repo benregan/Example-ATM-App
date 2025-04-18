@@ -29,11 +29,12 @@ function Dashboard() {
 
 
     useEffect(() => {
-        if (transactionsRef.current) {
-          transactionsRef.current.addEventListener('scroll', handleScroll);
+        const currentRef = transactionsRef.current;
+        if (currentRef) {
+          currentRef.addEventListener('scroll', handleScroll);
           return () => {
-            if (transactionsRef.current) {
-              transactionsRef.current.removeEventListener('scroll', handleScroll);
+            if (currentRef) {
+              currentRef.removeEventListener('scroll', handleScroll);
             }
           };
         }
