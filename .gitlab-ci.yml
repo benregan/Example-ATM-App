@@ -26,6 +26,8 @@ pages:
     - mkdir public
     - cp -a build/. public/
     - cp public/index.html public/404.html
+    - echo "Contents of public/ directory:"
+    - find public -type f
   artifacts:
     paths:
       - public
